@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.jsjk.dao.RecordDao">
+    <resultMap type="record" id="record">
+        <result property="id" column="id" />
+        <result property="createDate" column="createDate" />
+        <result property="dId" column="dId" />
+        <result property="uId" column="uId" />
+        <result property="foodCount" column="foodCount" />
+    </resultMap>
+	
+	<insert id="addRecord" parameterType="com.jsjk.model.Record" >
+    insert into records
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="createDate != null" >
+        createDate,
+      </if>
+      <if test="dId != null" >
+        dId,
+      </if>
+      <if test="uId != null" >
+        uId,
+      </if>
+      <if test="foodCount != null" >
+        foodCount,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="createDate != null" >
+        #{createDate},
+      </if>
+      <if test="dId != null" >
+        #{dId},
+      </if>
+      <if test="uId != null" >
+        #{uId},
+      </if>
+      <if test="foodCount != null" >
+        #{foodCount},
+      </if>
+    </trim>
+  </insert>
+
+	  <select id="selectInfo" parameterType="int" resultMap="record">
+	  		select * from records where uId = #{uId}
+	  </select>
+	  
+	  <select id="selectAll" resultMap="record">
+	  		select * from records a LEFT JOIN users b on a.uId = b.id
+	  </select>
+</mapper>
